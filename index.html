@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Escribe tu nombre</title>
+<meta name="description" content="Escribe tu nombre y mira en qué animal de estrellas se convierte. Cada nombre da siempre el mismo animal.">
+<meta name="theme-color" content="#060a1c">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="cielo" aria-hidden="true"></canvas>
+<main>
+  <h1 class="sr">Escribe tu nombre y mira en qué se convierte</h1>
+  <form id="formulario" autocomplete="off">
+    <label for="nombre">Escribe tu nombre</label>
+    <div class="campo">
+      <input id="nombre" name="nombre" type="text" maxlength="40" autocomplete="off" autocapitalize="words" spellcheck="false" enterkeyhint="go" placeholder="Tu nombre" aria-describedby="nota">
+      <span id="cursor" aria-hidden="true"></span>
+      <button type="submit" aria-label="Convertir en estrellas"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.5l2.7 6.1 6.6.6-5 4.4 1.5 6.5L12 16.8 6.2 20.1l1.5-6.5-5-4.4 6.6-.6z"/></svg></button>
+    </div>
+  </form>
+  <p id="nota">Cada nombre da siempre el mismo animal. Tu nombre no se guarda ni se envía: todo pasa en tu pantalla.</p>
+  <p id="anuncio" class="sr" aria-live="polite"></p>
+  <button id="sonido" type="button" aria-pressed="true" aria-label="Sonido"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 9h4l5-4v14l-5-4H4z"/><path class="ondas" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M16 9a4 4 0 0 1 0 6M18.5 6.5a7.5 7.5 0 0 1 0 11"/></svg></button>
+</main>
+<canvas id="letras" aria-hidden="true"></canvas>
+<script src="app.js"></script>
+</body>
+</html>

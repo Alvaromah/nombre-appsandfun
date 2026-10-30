@@ -1,0 +1,42 @@
+/* Escribe tu nombre: a night sky over the whole screen, the name box low in the middle. */
+:root {
+  color-scheme: dark;
+  --oro: #ffd56b; --tinta: #eef2ff; --suave: #a9b6e8;
+  --letra: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; overflow: hidden; background: #060a1c; color: var(--tinta); font-family: var(--letra); }
+#cielo, #letras { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+#letras { pointer-events: none; z-index: 2; }
+main { position: fixed; inset: 0; pointer-events: none; }
+form { position: absolute; left: 50%; top: 66.5%; transform: translateX(-50%); width: min(310px, 80vw); text-align: center; pointer-events: auto; }
+label { display: block; margin-bottom: 8px; font-size: 15px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #c3cdf6; }
+.campo { position: relative; }
+#nombre {
+  width: 100%; height: 56px; padding: 0 50px; border-radius: 28px;
+  border: 2px solid rgba(190, 205, 255, 0.55); background: rgba(10, 16, 48, 0.6); color: #fff;
+  font: 800 40px/1 var(--letra); text-align: center; text-transform: uppercase; caret-color: var(--oro);
+  box-shadow: inset 0 0 22px rgba(120, 150, 255, 0.22); outline: none;
+}
+#nombre:focus-visible { border-color: var(--oro); box-shadow: 0 0 0 3px rgba(255, 213, 107, 0.35), inset 0 0 22px rgba(120, 150, 255, 0.22); }
+#nombre::placeholder { color: rgba(195, 205, 246, 0.45); font-size: 22px; letter-spacing: 0.04em; }
+#cursor { display: none; position: absolute; left: 50%; top: 50%; width: 3px; height: 40px; translate: 0 -50%; border-radius: 2px; background: var(--oro); }
+button { font: inherit; color: inherit; }
+button[type="submit"] {
+  position: absolute; right: 6px; top: 6px; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%;
+  display: grid; place-items: center; background: var(--oro); color: #241a00; cursor: pointer;
+}
+button[type="submit"]:focus-visible, #sonido:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
+button svg { width: 24px; height: 24px; display: block; }
+#nota { position: absolute; left: 50%; bottom: 4%; transform: translateX(-50%); width: min(330px, 88vw); margin: 0; text-align: center; font-size: 14px; line-height: 1.4; color: var(--suave); }
+#sonido {
+  position: absolute; left: 12px; bottom: 12px; width: 40px; height: 40px; padding: 8px; border-radius: 50%;
+  border: 1px solid rgba(190, 205, 255, 0.35); background: rgba(10, 16, 48, 0.5); color: var(--suave); cursor: pointer; pointer-events: auto;
+}
+#sonido.off .ondas { display: none; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+/* The film mode: the page drawn frame by frame from a script, with its own caret. */
+.film #nombre { caret-color: transparent; border-color: var(--oro); box-shadow: 0 0 0 3px rgba(255, 213, 107, 0.28), inset 0 0 22px rgba(120, 150, 255, 0.22); }
+.film #cursor { display: block; }
+.film #nombre::placeholder { color: transparent; }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto; } }
