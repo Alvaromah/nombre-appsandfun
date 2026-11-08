@@ -9,6 +9,50 @@
 <meta name="robots" content="noindex">
 <link rel="canonical" href="https://nombre.appsandfun.com/">
 <link rel="stylesheet" href="../style.css">
+<script data-analytics-diagnostic>
+// Temporary in-page observation of the official beacon's real requests.
+// This does not create analytics events or read submitted names.
+(() => {
+  if (new URLSearchParams(location.search).get('analitica') !== 'prueba') return;
+  const lines = ['Prueba del contador (tráfico propio)', new Date().toISOString()];
+  let panel;
+  const log = message => {
+    lines.push(message);
+    if (panel) panel.textContent = lines.join('\n');
+  };
+  document.addEventListener('DOMContentLoaded', () => {
+    panel = document.createElement('pre');
+    panel.id = 'analytics-diagnostic';
+    panel.setAttribute('role', 'status');
+    panel.style.cssText = 'position:fixed;inset:8px 8px auto;z-index:99999;white-space:pre-wrap;background:#fff;color:#111;padding:16px;font:14px/1.5 monospace;max-height:48vh;overflow:auto;border:3px solid #146c43';
+    document.body.append(panel);
+    panel.textContent = lines.join('\n');
+  });
+  const originalOpen = XMLHttpRequest.prototype.open;
+  XMLHttpRequest.prototype.open = function(method, url, ...rest) {
+    const target = String(url);
+    const result = originalOpen.call(this, method, url, ...rest);
+    if (target.includes('/cdn-cgi/rum')) {
+      log('Medición oficial: ' + method + ' ' + target);
+      this.addEventListener('loadend', () => log('Respuesta de medición: HTTP ' + this.status));
+    }
+    return result;
+  };
+  const originalSendBeacon = navigator.sendBeacon.bind(navigator);
+  navigator.sendBeacon = function(url, body) {
+    const result = originalSendBeacon(url, body);
+    if (String(url).includes('/cdn-cgi/rum')) log('Medición al salir: ' + (result ? 'en cola' : 'rechazada'));
+    return result;
+  };
+  window.addEventListener('error', event => {
+    const resource = event.target && event.target.src;
+    log(resource ? 'Error de recurso: ' + resource : 'Error JavaScript: ' + event.message);
+  }, true);
+  window.addEventListener('unhandledrejection', event => log('Promesa rechazada: ' + String(event.reason)));
+  window.addEventListener('load', () => log('Carga de página terminada'));
+})();
+
+</script>
   <script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token":"13e4f376f1a8451d85dda26f7a081adc"}'></script>
 </head>
 <body>
@@ -31,3 +75,4 @@
 <script src="../app.js"></script>
 </body>
 </html>
+
